@@ -1,0 +1,82 @@
+/* Background */
+.registration-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea, #764ba2, #e55d87);
+}
+
+/* Card */
+.registration-card {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+/* Heading */
+.registration-card h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+    color: #333;
+}
+
+/* Labels & Inputs */
+.registration-card label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #444;
+}
+
+.registration-card input,
+.registration-card textarea,
+.registration-card select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.registration-card input:focus,
+.registration-card textarea:focus,
+.registration-card select:focus {
+    border-color: #764ba2;
+    outline: none;
+    box-shadow: 0 0 5px rgba(118, 75, 162, 0.5);
+}
+
+/* Button */
+.registration-card button {
+    width: 100%;
+    background: linear-gradient(to right, #764ba2, #667eea);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.registration-card button:hover {
+    transform: scale(1.05);
+}
+
+/* Error */
+.error-message {
+    background: #ffe0e0;
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 13px;
+}
