@@ -20,6 +20,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateUser(User user) {
+        Optional<User> userdata = userRepository.findByEmail(user.getEmail());
+        if (userdata.isPresent()){
+            userdata.get().setName(user.getName());
+            userdata.get().setEmail(user.getEmail());
+            userdata.get().setAddress(user.getAddress());
+            userdata.get().setRole(user.getRole());
+            userRepository.save(userdata.get());
+            return userdata.get();
+        }else
+            return null;
+    }
+
+    @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
@@ -38,5 +52,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+
 }
 

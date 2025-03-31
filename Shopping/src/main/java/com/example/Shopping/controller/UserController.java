@@ -99,15 +99,8 @@ public class UserController {
         return ResponseEntity.ok("feedback added");
     }
 
-    /*@PutMapping("/update/{id}")
-    public ResponseEntity<?> addAddress(@PathVariable Long id, @RequestBody User userDetails) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        //user.setAddress(userDetails.getEmail());
-        user.setPassword(new BCryptPasswordEncoder().encode(userDetails.getPassword()));
-        userService.addUser(user);
-
-        return ResponseEntity.ok("Address added successfully!");
-    }*/
+    @PutMapping("/updateUser")
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
+        return ResponseEntity.ok().body(userService.updateUser(user));
+    }
 }
