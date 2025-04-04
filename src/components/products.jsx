@@ -30,7 +30,7 @@ const ProductGrid = () => {
     };
 
     const handleReview = (id) => {
-        navigate(`/review/${id}`);
+        navigate(`/review/${id}?source=products`);
     };
 
     return (
@@ -63,6 +63,7 @@ const ProductGrid = () => {
                             }}
                         />
                         <div>
+                            <h4>{product.id}</h4>
                             <h3>{product.name}</h3>
                             <p>{product.description}</p>
                             <p><strong>${product.price.toFixed(2)}</strong></p>

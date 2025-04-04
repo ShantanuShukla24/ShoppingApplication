@@ -30,7 +30,7 @@ const Checkout = ({ cartItems }) => {
     };
 
     const handleAddReview = () => {
-        navigate(`/review/${checkoutDetails.orderId}`);
+        navigate(`/review/${checkoutDetails.orderId}?source=checkout`);
     };
 
     return (

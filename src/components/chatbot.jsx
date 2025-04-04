@@ -3,21 +3,40 @@ import chatIcon from "../assets/chaticon.png"; // Adjust the path if needed
 
 const Chatbot = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState([
-        "Hello! How can I assist you?"
-    ]);
-    const [input, setInput] = useState("");
+    const [messages, setMessages] = useState([]);
+    const [userInput, setUserInput] = useState("");
 
-    const handleSendMessage = () => {
-        if (input.trim() !== "") {
-            setMessages([...messages, input, "Contact +91-1234567890 or send email to support@care.com"]);
-            setInput("");
+    const sendMessage = async () => {
+        if (!userInput.trim()) return;
+
+        const userMessage = { sender: 'user', text: userInput };
+        setMessages((prev) => [...prev, userMessage]);
+
+        try {
+            const response = await fetch('http://localhost:8080/help/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain',
+                },
+                body: userInput,
+            });
+
+            const data = await response.text();
+
+            const botMessage = { sender: 'bot', text: data };
+            setMessages((prev) => [...prev, botMessage]);
+            setUserInput('');
+        } catch (error) {
+            console.error('Chatbot error:', error);
         }
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') sendMessage();
     };
 
     return (
         <div style={{ position: "fixed", bottom: "20px", right: "20px" }}>
-            {/* Small Clickable Chat Icon */}
             {!isOpen && (
                 <button
                     onClick={() => setIsOpen(true)}
@@ -58,7 +77,6 @@ const Chatbot = () => {
                         border: "1px solid #ccc",
                     }}
                 >
-                    {/* Header */}
                     <div
                         style={{
                             backgroundColor: "#007bff",
@@ -95,10 +113,21 @@ const Chatbot = () => {
                         }}
                     >
                         {messages.map((msg, index) => (
-                            <p key={index} style={{ padding: "8px", background: "white", borderRadius: "5px", marginBottom: "5px" }}>
-                                {msg}
-                            </p>
+                            <div
+                                key={index}
+                                style={{
+                                    alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
+                                    backgroundColor: msg.sender === 'user' ? 'blue' : 'green',
+                                    padding: "8px",
+                                    borderRadius: "5px",
+                                    marginBottom: "5px",
+                                    maxWidth: "80%",
+                                }}
+                            >
+                                {msg.text}
+                            </div>
                         ))}
+
                     </div>
 
                     {/* Message Input */}
@@ -112,8 +141,8 @@ const Chatbot = () => {
                         <input
                             type="text"
                             placeholder="Type a message..."
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
+                            value={userInput}
+                            onChange={(e) => setUserInput(e.target.value)}
                             style={{
                                 flex: 1,
                                 padding: "5px",
@@ -122,7 +151,7 @@ const Chatbot = () => {
                             }}
                         />
                         <button
-                            onClick={handleSendMessage}
+                            onClick={sendMessage}
                             style={{
                                 marginLeft: "5px",
                                 padding: "5px 10px",

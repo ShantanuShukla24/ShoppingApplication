@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 const AddReviewPage = () => {
     const [comment, setComment] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
-    const { id } = useParams(); // product ID from URL `/review/:id`
+    const { id } = useParams();
+    const location = useLocation();
+
+    const queryParams = new URLSearchParams(location.search);
+    const source = queryParams.get('source');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,7 +23,6 @@ const AddReviewPage = () => {
         setMessage('');
 
         try {
-            // Product Review API
             const productResponse = await fetch(`http://localhost:8080/products/review/${id}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain' },
@@ -59,7 +62,7 @@ const AddReviewPage = () => {
         setLoading(true);
         setMessage('');
         try {
-            // Product Review API
+            // Order Review API
             const orderResponse = await fetch(`http://localhost:8080/checkout/orderReview/${id}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain' },
@@ -84,9 +87,15 @@ const AddReviewPage = () => {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
-            <div style={{ width: '420px', padding: '25px', background:'linear-gradient(135deg, #667eea, #764ba2, #e55d87)',boxShadow: '0 0 12px rgba(0,0,0,0.2)', borderRadius: '8px' }}>
+            <div style={{
+                width: '420px',
+                padding: '25px',
+                background: 'linear-gradient(135deg, #667eea, #764ba2, #e55d87)',
+                boxShadow: '0 0 12px rgba(0,0,0,0.2)',
+                borderRadius: '8px'
+            }}>
                 <h2 style={{ marginBottom: '15px' }}>Add Your Review</h2>
-                <form onSubmit={handleSubmit}>
+                <form>
                     <textarea
                         rows="5"
                         style={{
@@ -105,28 +114,30 @@ const AddReviewPage = () => {
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
                         <button
                             onClick={handleSubmit}
-                            disabled={loading}
+                            disabled={loading || source === 'checkout'}
                             style={{
                                 padding: '10px 20px',
                                 backgroundColor: 'blue',
                                 color: 'white',
                                 border: 'none',
-                                cursor: 'pointer',
+                                cursor: loading || source === 'checkout' ? 'not-allowed' : 'pointer',
                                 borderRadius: '4px',
+                                opacity: loading || source === 'checkout' ? 0.5 : 1,
                             }}
                         >
                             {loading ? 'Submitting...' : 'Submit Product Review'}
                         </button>
                         <button
                             onClick={handleOrderSubmit}
-                            disabled={loading}
+                            disabled={loading || source === 'products'}
                             style={{
                                 padding: '10px 20px',
                                 backgroundColor: 'green',
                                 color: 'white',
                                 border: 'none',
-                                cursor: 'pointer',
+                                cursor: loading || source === 'products' ? 'not-allowed' : 'pointer',
                                 borderRadius: '4px',
+                                opacity: loading || source === 'products' ? 0.5 : 1,
                             }}
                         >
                             {loading ? 'Submitting...' : 'Submit Order Review'}
