@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 @Service
-public class SentimentServiceImpl implements SentimentService{
+public class WordSentimentServiceImpl implements WordSentimentService {
 
     private Set<String> positiveWords = Set.of(
             "great", "excellent", "amazing", "fantastic", "awesome",

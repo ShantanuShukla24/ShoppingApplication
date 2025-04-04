@@ -3,7 +3,7 @@ package com.example.Shopping.controller;
 import com.example.Shopping.model.User;
 import com.example.Shopping.model.UserFeedback;
 import com.example.Shopping.repository.UserFeedbackRepository;
-import com.example.Shopping.service.SentimentService;
+import com.example.Shopping.service.WordSentimentService;
 import com.example.Shopping.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private SentimentService sentimentService;
+    private WordSentimentService wordSentimentService;
 
     @Autowired
     private UserFeedbackRepository userFeedbackRepository;
@@ -94,7 +94,7 @@ public class UserController {
         UserFeedback feedback = new UserFeedback();
         feedback.setFeedback(text);
         feedback.setUser(user.get());
-        feedback.setSentiment(sentimentService.analyzeSentiment(feedback.getFeedback()));
+        feedback.setSentiment(wordSentimentService.analyzeSentiment(feedback.getFeedback()));
         userFeedbackRepository.save(feedback);
         return ResponseEntity.ok("feedback added");
     }

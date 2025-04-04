@@ -8,6 +8,7 @@ import com.example.Shopping.repository.CheckoutRepository;
 import com.example.Shopping.repository.OrderReviewRepository;
 import com.example.Shopping.service.CheckoutService;
 import com.example.Shopping.service.SentimentService;
+import com.example.Shopping.service.WordSentimentService;
 import com.example.Shopping.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class checkoutController {
 
     @Autowired
     private OrderReviewRepository orderReviewRepository;
+
+    @Autowired
+    private WordSentimentService wordSentimentService;
 
     @Autowired
     private SentimentService sentimentService;

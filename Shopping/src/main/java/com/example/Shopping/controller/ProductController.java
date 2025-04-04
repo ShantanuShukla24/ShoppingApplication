@@ -5,6 +5,7 @@ import com.example.Shopping.model.Review;
 import com.example.Shopping.repository.ReviewRepository;
 import com.example.Shopping.service.ProductService;
 import com.example.Shopping.service.SentimentService;
+import com.example.Shopping.service.WordSentimentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ import java.util.Optional;
 class ProductController {
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private WordSentimentService wordSentimentService;
 
     @Autowired
     private SentimentService sentimentService;
